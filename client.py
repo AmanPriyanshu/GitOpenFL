@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 import os
 import importlib
+import requests
 
 class ClientSide:
 	def __init__(self, current_epoch=0, cfg_path='fl.cfg'):
@@ -46,7 +47,15 @@ class ClientSide:
 			except:
 				continue
 
+	def download_model(self, n):
+		flag = True
+		while flag:
+			responses = requests.get(link)
+			os.system('curl '+ '' +' > '+ 'aggregated_model_no_'+str(n)+'.pt')
+
 	def train(self):
+		if self.current_epoch%self.client_epochs:
+			self.download_model(self.current_epoch//self.client_epochs)
 
 
 
